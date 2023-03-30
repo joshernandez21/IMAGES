@@ -3,36 +3,38 @@ import subprocess
 import wget
 import argparse
 import os
-import git
+
 
 def upload_git(version):
     try:
-        upload_cmd = ["git add .", "git commit 'Uploading version{}'", "git push"]
-        command(upload_cmd.format(version))
+        upload_cmd = []
+        upload_cmd.append("git add .")
+        commit_msg = "git commit 'Uploading version {}'"
+        upload_cmd.append(commit_msg.format(version))
+        upload_cmd.append("git push")
+        print(upload_cmd)
+        command(upload_cmd)
     except Exception as error:
         print("Unable to push to git")
     return True
 
 
 def download_split(filename, version):
-    path = "../" + version
-    os.makedirs(path)
-    print("Creating folder .. Success")
-    url = "https://cdn.devolutions.net/download/Mac/{}"
-    wget.download(url.format(filename))
-    print("Dowloading file .. Success")
-    split_cmd = "split --bytes=90M {}"
-    command(split_cmd.format(filename))
-    print("Splitting file .. Success")
-    os.remove(filename)
-    print("Removing original .. Success")
-    move_cmd = "find . -maxdepth 1 -mindepth 1 -not -name pullpush.py -print0 | xargs -0 mv -t ../{}"
-    command(move_cmd.format(version))
-    print("Copying files to version folder .. Success")
+    # path = "../" + version
+    # os.makedirs(path)
+    # print("Creating folder .. Success")
+    # url = "https://cdn.devolutions.net/download/Mac/{}"
+    # wget.download(url.format(filename))
+    # print("Dowloading file .. Success")
+    # split_cmd = "split --bytes=90M {}"
+    # command(split_cmd.format(filename))
+    # print("Splitting file .. Success")
+    # os.remove(filename)
+    # print("Removing original .. Success")
+    # move_cmd = "find . -maxdepth 1 -mindepth 1 -not -name pullpush.py -print0 | xargs -0 mv -t ../{}"
+    # command(move_cmd.format(version))
+    # print("Copying files to version folder .. Success")
     upload_git(version)
-    # upload_cmd = "git add .;git commit 'Uploading version{}';git push"
-    # upload_cmd = "git add .;git commit 'Uploading version{}';git push"
-    # command(upload_cmd.format(version))
     print("Upload files to Git .. Success")
 
 
