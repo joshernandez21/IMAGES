@@ -7,13 +7,12 @@ import os
 
 def upload_git(version):
     try:
-        upload_cmd = []
-        upload_cmd.append("git add --all")
-        commit_msg = "git commit 'Uploading version {}'"
-        upload_cmd.append(commit_msg.format(version))
-        upload_cmd.append("git push")
-        print(upload_cmd)
-        command(upload_cmd)
+        command("git add --all")
+        command("git status")
+        command("git commit -m 'Adding new version'")
+        command("git status")
+        command("git push")
+        command("git status")
     except Exception as error:
         print("Unable to push to git")
     return True
