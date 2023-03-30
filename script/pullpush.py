@@ -8,7 +8,7 @@ import os
 def upload_git(version):
     try:
         upload_cmd = []
-        upload_cmd.append("git add .")
+        upload_cmd.append("git add --all")
         commit_msg = "git commit 'Uploading version {}'"
         upload_cmd.append(commit_msg.format(version))
         upload_cmd.append("git push")
@@ -20,20 +20,20 @@ def upload_git(version):
 
 
 def download_split(filename, version):
-    # path = "../" + version
-    # os.makedirs(path)
-    # print("Creating folder .. Success")
-    # url = "https://cdn.devolutions.net/download/Mac/{}"
-    # wget.download(url.format(filename))
-    # print("Dowloading file .. Success")
-    # split_cmd = "split --bytes=90M {}"
-    # command(split_cmd.format(filename))
-    # print("Splitting file .. Success")
-    # os.remove(filename)
-    # print("Removing original .. Success")
-    # move_cmd = "find . -maxdepth 1 -mindepth 1 -not -name pullpush.py -print0 | xargs -0 mv -t ../{}"
-    # command(move_cmd.format(version))
-    # print("Copying files to version folder .. Success")
+    path = "../" + version
+    os.makedirs(path)
+    print("Creating folder .. Success")
+    url = "https://cdn.devolutions.net/download/Mac/{}"
+    wget.download(url.format(filename))
+    print("Dowloading file .. Success")
+    split_cmd = "split --bytes=90M {}"
+    command(split_cmd.format(filename))
+    print("Splitting file .. Success")
+    os.remove(filename)
+    print("Removing original .. Success")
+    move_cmd = "find . -maxdepth 1 -mindepth 1 -not -name pullpush.py -print0 | xargs -0 mv -t ../{}"
+    command(move_cmd.format(version))
+    print("Copying files to version folder .. Success")
     upload_git(version)
     print("Upload files to Git .. Success")
 
