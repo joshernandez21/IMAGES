@@ -7,11 +7,8 @@ import git
 
 def upload_git(version):
     try:
-        repo.git.add('--all')
-        commit_msg = "Uploading version {}"
-        repo.git.commit('-m', commit_msg.format(version))
-        origin = repo.remote(name='origin')
-        origin.push()
+        upload_cmd = ["git add .", "git commit 'Uploading version{}'", "git push"]
+        command(upload_cmd.format(version))
     except Exception as error:
         print("Unable to push to git")
     return True
