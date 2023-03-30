@@ -3,6 +3,19 @@ import subprocess
 import wget
 import argparse
 import os
+import git
+
+def upload_git(version):
+    try:
+        repo.git.add('--all')
+        commit_msg = "Uploading version {}"
+        repo.git.commit('-m', commit_msg.format(version))
+        origin = repo.remote(name='origin')
+        origin.push()
+    except Exception as error:
+        print("Unable to push to git")
+    return True
+
 
 def download_split(filename, version):
     path = "../" + version
@@ -19,8 +32,10 @@ def download_split(filename, version):
     move_cmd = "find . -maxdepth 1 -mindepth 1 -not -name pullpush.py -print0 | xargs -0 mv -t ../{}"
     command(move_cmd.format(version))
     print("Copying files to version folder .. Success")
-    upload_cmd = "git add .;git commit 'Uploading version{}';git push"
-    command(upload_cmd.format(version))
+    upload_git(version)
+    # upload_cmd = "git add .;git commit 'Uploading version{}';git push"
+    # upload_cmd = "git add .;git commit 'Uploading version{}';git push"
+    # command(upload_cmd.format(version))
     print("Upload files to Git .. Success")
 
 
